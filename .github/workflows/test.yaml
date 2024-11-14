@@ -6,6 +6,8 @@ on:
 
 name: test
 
+run: brew install r
+
 jobs:
   run-tests:
     runs-on: ${{ matrix.os }}-latest
