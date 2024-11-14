@@ -5,6 +5,8 @@ on:
     branches: [main, master]
 
 name: test
+ 
+
 
 jobs:
   run-tests:
@@ -21,4 +23,11 @@ jobs:
         run: |
           sudo apt update
           sudo apt install -y r-base
+          mkdir -p $HOME/Rlibs 
+          R -e "install.packages('RInside', lib='$HOME/Rlibs')"
+          R -e "install.packages('Rcpp', lib='$HOME/Rlibs')"
+          echo "R_LIBS=$HOME/Rlibs" >> ~/.Renviron
+          R -e "library(RInside)"
+          R -e "library(Rcpp)"
+          echo "R_LIBS_USER=$HOME/Rlibs" >> $GITHUB_ENV
       - uses: jeremyirilli/swi-prolog-pack-cover@main
