@@ -19,8 +19,10 @@ include(swipl)
 # `test/test_${name}.pl`, which exports a  predicate `test_${name}`. The
 # test succeeds if this predicate  succeeds   and  no error messages are
 # printed.
-
-enable_testing()
-swipl_add_test(interval)
-swipl_add_test(rint)
-swipl_add_test(mcclass)
+option(SKIP_TESTS "Skip tests during the installation" OFF)
+if(NOT SKIP_TESTS)
+    enable_testing()
+    swipl_add_test(interval)
+    swipl_add_test(rint)
+    swipl_add_test(mcclass)
+endif()

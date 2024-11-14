@@ -6,8 +6,6 @@ on:
 
 name: test
 
-run: brew install r
-
 jobs:
   run-tests:
     runs-on: ${{ matrix.os }}-latest
@@ -15,7 +13,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macOS]
+        os: [ubuntu]
     steps:
       - uses: actions/checkout@v2
-      - uses: royratcliffe/swi-prolog-pack-cover@main
+      - name: Install R
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt update
+          sudo apt install -y r-base
+      - uses: jeremyirilli/swi-prolog-pack-cover@main
