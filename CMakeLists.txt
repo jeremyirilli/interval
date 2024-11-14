@@ -16,7 +16,7 @@ include(swipl)
 #	   ${CMAKE_CURRENT_SOURCE_DIR}/test/test_${name}.pl
 #
 # This  implies  that  a  test  `name`  must    be  defined  in  a  file
-# `test/test_${name}.pl`, which exports a  predicate `test_${name}`. The
+# `test/test_${name}.plt`, which exports a  predicate `test_${name}`. The
 # test succeeds if this predicate  succeeds   and  no error messages are
 # printed.
 
