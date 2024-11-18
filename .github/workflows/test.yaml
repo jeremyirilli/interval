@@ -57,4 +57,9 @@ jobs:
           swipl -t "pack_install(., [interactive(false), link(false)])"
         shell: bash
       
+      - name: Run tests
+      run: |
+        swipl -s "${{ github.workspace }}/action.pl"
+      shell: bash
+      
       #- uses: jeremyirilli/swi-prolog-pack-cover@main
