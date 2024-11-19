@@ -50,16 +50,20 @@ jobs:
           mkdir -p ~/.local/share/swi-prolog/pack/rologpp/foreign
           cp ~/.local/share/swi-prolog/pack/rologpp/lib/x86_64-linux/rologpp.so ~/.local/share/swi-prolog/pack/rologpp/foreign/
           ls ~/.local/share/swi-prolog/pack/rologpp/foreign
-      - name: Remove old package
-        run: |
-          swipl -g "use_module(library(prolog_pack)), catch(pack_remove(interval), _, true), halt."
 
-        shell: bash
       - name: Install pack
         run: |
           export R_LIBS_USER=$HOME/Rlibs
-          swipl -t "pack_remove(interval)"
+          PACK_DIR="$HOME/.local/share/swi-prolog/pack/interval"
+          if [ -d "$PACK_DIR" ]; then
+            echo "Pack directory exists: $PACK_DIR"
+            echo "Removing existing pack directory..."
+            rm -rf "$PACK_DIR"
+          else
+            echo "Pack directory does not exist: $PACK_DIR"
+          fi
           REPO_URL="https://github.com/$GITHUB_REPOSITORY.git"
+          echo "Repository URL: $REPO_URL"
           swipl -t "pack_install('$REPO_URL', [interactive(false), link(false)])"
         shell: bash
       
