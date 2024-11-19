@@ -50,16 +50,22 @@ jobs:
           mkdir -p ~/.local/share/swi-prolog/pack/rologpp/foreign
           cp ~/.local/share/swi-prolog/pack/rologpp/lib/x86_64-linux/rologpp.so ~/.local/share/swi-prolog/pack/rologpp/foreign/
           ls ~/.local/share/swi-prolog/pack/rologpp/foreign
+      - name: Remove old package
+        run: |
+          swipl -g "use_module(library(prolog_pack)), catch(pack_remove(interval), _, true), halt."
 
+        shell: bash
       - name: Install pack
         run: |
           export R_LIBS_USER=$HOME/Rlibs
-          swipl -t "pack_install(., [interactive(false), link(false)])"
+          swipl -t "pack_remove(interval)"
+          REPO_URL="https://github.com/$GITHUB_REPOSITORY.git"
+          swipl -t "pack_install('$REPO_URL', [interactive(false), link(false)])"
         shell: bash
       
-      - name: Run tests
-      run: |
-        swipl -s "${{ github.workspace }}/action.pl"
-      shell: bash
+      #- name: Run tests
+      #run: |
+      #  swipl -s "${{ github.workspace }}/action.pl"
+      #shell: bash
       
       #- uses: jeremyirilli/swi-prolog-pack-cover@main
