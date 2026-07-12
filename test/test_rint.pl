@@ -395,6 +395,22 @@ test(qbinom53) :-
     interval(qbinom(-0.69... -0.51, 20...21, 0.6...0.7, false, true), Res),
     equal(Res, 10.9999...15.0001).
 
+test(qbinom54) :-
+    interval(qbinom(p=0.5...0.6, size=20...21, prob=0.6...0.7, 'lower.tail'=false, 'log.p'=false), Res),
+    equal(Res, 10.9999...15.0001).
+
+test(qbinom55) :-
+    interval(qbinom(p=0.5...0.6, size=20...21, prob=0.6...0.7, 'lower.tail'=true), Res),
+    equal(Res, 11.9999...15.0001).
+
+test(qbinom56) :-
+    interval(qbinom(p=0.5...0.6, size=20...21, prob=0.6...0.7), Res),
+    equal(Res, 11.9999...15.0001).
+
+test(qbinom57) :-
+    interval(qbinom('log.p'=false, prob=0.6...0.7, 'lower.tail'=true, size=20...21, p=0.5...0.6), Res),
+    equal(Res, 11.9999...15.0001).
+
 test(pbinom1) :-
     interval(pbinom(10, 20, 0.6), Res),
     equal(Res, 0.2446...0.2447).

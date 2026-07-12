@@ -25,6 +25,8 @@ For more information on the meaning of macro arguments, refer to the module 'exp
 
 :- dynamic(interval_/3).
 
+:- discontiguous fun/2.
+
 user:term_expansion(macro(Op/Arity, Fn, Dir), Clauses) :-
     macro_clause(Op/Arity, Fn, Dir, Clauses).
 
@@ -95,24 +97,20 @@ interval_(atomic(Name)=Arg, Res, Flags) :-
 %
 % Binomial distribution
 %
+
+% pbinom
 fun(pbinom, args{1:[q], 2:[size], 3:[prob], 4:['lower.tail', true], 5:['log.p', false]}).
 
 macro(pbinom/5, all, [-, +, +, /, /], [hook(r), pattern([_, _, _, bool(false), bool(_)]), names([q, size, prob, 'lower.tail', 'log.p'])]).
 
 macro(pbinom/5, all, [+, -, -, /, /], [hook(r), pattern([_, _, _, bool(true), bool(_)]), names([q, size, prob, 'lower.tail', 'log.p'])]).
 
-% qbinom/3: default lower.tail = TRUE
-macro(qbinom/3, all, [+, +, +], [hook(r)]).
+% qbinom
+fun(qbinom, args{1:[p], 2:[size], 3:[prob], 4:['lower.tail', true], 5:['log.p', false]}).
 
-% qbinom/4: explicit tail argument
-macro(qbinom/4, all, [+, +, +, /], [hook(r), pattern([_, _, _, bool(true)])]).
+macro(qbinom/5, all, [+, +, +, /, /], [hook(r), pattern([_, _, _, bool(true), bool(_)]), names([p, size, prob, 'lower.tail', 'log.p'])]).
 
-macro(qbinom/4, all, [-, +, +, /], [hook(r), pattern([_, _, _, bool(false)])]).
-
-% qbinom/5: explicit tail and log.p arguments
-macro(qbinom/5, all, [+, +, +, /, /], [hook(r), pattern([_, _, _, bool(true), bool(_)])]).
-
-macro(qbinom/5, all, [-, +, +, /, /], [hook(r), pattern([_, _, _, bool(false), bool(_)])]).
+macro(qbinom/5, all, [-, +, +, /, /], [hook(r), pattern([_, _, _, bool(false), bool(_)]), names([p, size, prob, 'lower.tail', 'log.p'])]).
 
 % dbinom/3
 interval_(dbinom(number(Alpha), number(N), number(P)), Res, _Flags) :-
